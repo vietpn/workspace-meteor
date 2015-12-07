@@ -1,5 +1,13 @@
 <head>
   <title>resolutions</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -12,14 +20,18 @@
                 <input type="submit" value="Submit">
             </form>
         </header>
+        <ul>
+            {{#each resolutions}}
+            {{> resolution}}
+            {{/each}}
+        </ul>
     </div>
-    <ul>
-    {{#each resolutions}}
-      {{> resolution}}
-    {{/each}}
-  </ul>
 </body>
 
 <template name="resolution">
-  <li>{{title}} <button class="delete">Remove</button></li>
+    <li class="{{#if checked}}checked{{/if}}">
+        <input type="checkbox" checked="{{checked}}" class="toggle-checked">
+        <span>{{title}}</span>
+        <button class="delete">Remove</button>
+    </li>
 </template>
