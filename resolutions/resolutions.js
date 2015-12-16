@@ -14,7 +14,7 @@ if (Meteor.isClient) {
     hideFinished: function(){
       return Session.get('hideFinished')
     }
-  })
+  });
 
   Template.body.events({
     'submit .new-resolution': function(event) {
@@ -28,7 +28,13 @@ if (Meteor.isClient) {
     'change .hide-finished': function(event){
       Session.set('hideFinished', event.target.checked)
     }
-  })
+  });
+
+  Template.resolution.helpers({
+    isOwner: function(){
+      return this.owner === Meteor.userId();
+    }
+  });
 
   Template.resolution.events({
     'click .toggle-checked': function(){
@@ -36,12 +42,15 @@ if (Meteor.isClient) {
     },
     'click .delete': function(){
       Meteor.call("deleteResolution", this._id);
+    },
+    'click .toggle-private': function(){
+      Meteor.call("setPrivate", this._id, !this.private);
     }
-  })
+  });
 
   Accounts.ui.config({
     passwordSignupFields: "USERNAME_ONLY"
-  })
+  });
 }
 
 if (Meteor.isServer) {
@@ -50,7 +59,12 @@ if (Meteor.isServer) {
   });
 
   Meteor.publish("resolutions", function(){
-    return Resolutions.find();
+    return Resolutions.find({
+      $or: [
+        {private: {$ne: true}},
+        {owner: this.userId}
+      ]
+    });
   });
 }
 
@@ -58,14 +72,36 @@ Meteor.methods({
   addResolution: function(title){
     Resolutions.insert({
       title: title,
-      createAt: new Date()
+      createAt: new Date(),
+      owner: Meteor.userId()
     });
   },
   updateResolution: function(id, checked){
+    var res = Resolutions.findOne(id);
+
+    if(res.owner !== Meteor.userId()){
+      throw new Meteor.Error('not-authorized');
+    }
+
     Resolutions.update(id, {$set: {checked: checked}});
   },
   deleteResolution: function(id){
+    var res = Resolutions.findOne(id);
+
+    if(res.owner !== Meteor.userId()){
+      throw new Meteor.Error('not-authorized');
+    }
+
     Resolutions.remove(id);
+  },
+  setPrivate: function(id, private){
+    var res = Resolutions.findOne(id);
+
+    if(res.owner !== Meteor.userId()){
+      throw new Meteor.Error('not-authorized');
+    }
+
+    Resolutions.update(id, {$set: {private: private}});
   }
 });
 
