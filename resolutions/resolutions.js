@@ -22,9 +22,7 @@ if (Meteor.isClient) {
         title: title,
         createAt: new Date()
       });
-
       event.target.title.value = "";
-
       return false;
     },
     'change .hide-finished': function(event){
@@ -39,6 +37,10 @@ if (Meteor.isClient) {
     'click .delete': function(){
       Resolutions.remove(this._id);
     }
+  })
+
+  Accounts.ui.config({
+    passwordSignupFields: "USERNAME_ONLY"
   })
 }
 
