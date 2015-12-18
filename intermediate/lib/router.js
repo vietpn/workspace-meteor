@@ -13,6 +13,6 @@ FlowRouter.route('/recipe-book', {
     name: 'recipe-book',
     action: function(){
         GAnalytics.pageview();
-        BlazeLayout.render('MainLayout', {main: 'NewRecipe'})
+        BlazeLayout.render('MainLayout', {main: 'Recipes'})
     }
 });
