@@ -4,13 +4,15 @@
 FlowRouter.route('/', {
     name: 'home',
     action: function(){
-        BlazeLayout.render('HomeLayout')
+        GAnalytics.pageview();
+        BlazeLayout.render('HomeLayout');
     }
 });
 
 FlowRouter.route('/recipe-book', {
     name: 'recipe-book',
     action: function(){
-        BlazeLayout.render('HomeLayout', {main: 'NewRecipe'})
+        GAnalytics.pageview();
+        BlazeLayout.render('MainLayout', {main: 'NewRecipe'})
     }
 });

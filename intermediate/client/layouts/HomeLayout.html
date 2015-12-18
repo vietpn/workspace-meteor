@@ -1,14 +1,8 @@
 <template name="HomeLayout">
-    <header>
-        <h1>My Recipe Book</h1>
-        {{> loginButtons}}
-    </header>
-
+    {{> Header}}
     <main>
-        {{> Template.dynamic template=main}}
+        <div class="billboard">
+            <h2>Organize Your Meals</h2>
+        </div>
     </main>
-</template>
-
-<template name="Test">
-    HELLO!!!
 </template>
