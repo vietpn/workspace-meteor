@@ -16,3 +16,11 @@ FlowRouter.route('/recipe-book', {
         BlazeLayout.render('MainLayout', {main: 'Recipes'})
     }
 });
+
+FlowRouter.route('/recipe/:id', {
+    name: 'recipe',
+    action: function(){
+        GAnalytics.pageview();
+        BlazeLayout.render('MainLayout', {main: 'RecipeSingle'})
+    }
+});
