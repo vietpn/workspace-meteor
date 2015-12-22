@@ -51,3 +51,11 @@ FlowRouter.route('/menu/', {
         BlazeLayout.render('MainLayout', {main: 'Menu'})
     }
 });
+
+FlowRouter.route('/shopping-list/', {
+    name: 'menu',
+    action: function(){
+        GAnalytics.pageview();
+        BlazeLayout.render('MainLayout', {main: 'ShoppingList'})
+    }
+});
